@@ -20,5 +20,9 @@
   "bugs": {
     "url": "https://github.com/asbjornenge/i3-status-schmatus/issues"
   },
-  "homepage": "https://github.com/asbjornenge/i3-status-schmatus"
+  "homepage": "https://github.com/asbjornenge/i3-status-schmatus",
+  "dependencies": {
+    "chalk": "^0.5.1",
+    "diskspace": "^0.1.7"
+  }
 }
