@@ -17,13 +17,17 @@ var data = {
     batteryPercent : '?'
 }
 
+console.log('{"version":1}')
+console.log('[[],')
+
 var bar = function() {
-    var sepa = chalk.magenta('|')
-    var disk = formatDiskInfo(data)
-    var batt = formatBatteryInfo(data)
-    var netw = formatNetworkInfo(data)
-    var time = formatTimeInfo()
-    console.log('%s '+sepa+' %s '+sepa+' %s '+sepa+' %s', disk, netw, batt, time) 
+    var out = [
+        { "full_text" : formatDiskInfo(data),    "color" : "#ffff00" },
+        { "full_text" : formatNetworkInfo(data), "color" : "#00F265" },
+        { "full_text" : formatBatteryInfo(data), "color" : "#ffff00" },
+        { "full_text" : formatTimeInfo(data),    "color" : "#ffff00" },
+    ]
+    console.log(JSON.stringify(out)+',')
     diskspace.check('/', function(err, total, free, status) {
         if (err) return
         data.diskspace = Math.round(free/1000000000) + ' GB'
@@ -50,7 +54,7 @@ function formatBatteryInfo(data) {
 }
 
 function formatNetworkInfo(data) {
-    if (data.network == '?') return
+    if (data.network == '?') return '?'
     if (data.network instanceof Array && data.network.length == 0) return 'No network'
     var infostr = ''
     data.network.forEach(function(network, index) {
