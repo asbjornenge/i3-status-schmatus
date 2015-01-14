@@ -49,7 +49,8 @@ function formatNetworkInfo(data) {
     if (data.network == '?') return
     if (data.network instanceof Array && data.network.length == 0) return 'No network'
     var infostr = ''
-    data.network.forEach(function(network) {
+    data.network.forEach(function(network, index) {
+        if (index > 0) inforstr += ' '
         infostr += (network.type == 'Wireless') ? emoji.get('radio') : emoji.get('telephone')
         infostr += '  '
         infostr += chalk.green(network.ip_address)
