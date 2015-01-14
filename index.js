@@ -9,7 +9,9 @@ var data = {
 }
 
 var bar = function() {
-    console.log('%s | %s', chalk.white(data.diskspace), data.battery)
+    var disk = formatDiskInfo(data)
+    var batt = formatBatteryInfo(data)
+    console.log('%s | %s', disk, batt) 
     diskspace.check('/', function(err, total, free, status) {
         if (err) return
         data.diskspace = Math.round(free/1000000000) + ' GB'
@@ -22,4 +24,14 @@ var bar = function() {
     })
 }
 
-setInterval(bar,2000); bar()
+function formatDiskInfo(data) {
+    return chalk.white(data.diskspace)
+}
+
+function formatBatteryInfo(data) {
+    var battcolor = data.batteryStatus == 'Discharging' ? chalk.cyan : chalk.green
+    if (data.batteryStatus == 'Discharging' && parseFloat(data.batteryPercent) < 10) battcolor = chalk.red
+    return battcolor('🔋  '+data.batteryPercent+'%')
+}
+
+setInterval(bar,2000);bar();
