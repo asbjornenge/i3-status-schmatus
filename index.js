@@ -1,5 +1,6 @@
 var chalk = require('chalk')
 var emoji = require('node-emoji')
+var moment = require('moment')
 var network = require('network')
 var diskspace = require('diskspace')
 var batteryInfo = require('battery-info')
@@ -16,10 +17,12 @@ var data = {
 }
 
 var bar = function() {
+    var sepa = chalk.magenta('|')
     var disk = formatDiskInfo(data)
     var batt = formatBatteryInfo(data)
     var netw = formatNetworkInfo(data)
-    console.log('%s | %s | %s', disk, netw, batt) 
+    var time = formatTimeInfo()
+    console.log('%s '+sepa+' %s '+sepa+' %s '+sepa+' %s', disk, netw, batt, time) 
     diskspace.check('/', function(err, total, free, status) {
         if (err) return
         data.diskspace = Math.round(free/1000000000) + ' GB'
@@ -56,6 +59,10 @@ function formatNetworkInfo(data) {
         infostr += chalk.green(network.ip_address)
     })
     return infostr
+}
+
+function formatTimeInfo() {
+    return moment().format('DD MMM HH:mm')
 }
 
 setInterval(bar,2000);bar();
