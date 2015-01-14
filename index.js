@@ -20,7 +20,6 @@ var bar = function() {
         if (err) return
         data.batteryStatus = info.status
         data.batteryPercent = ((100 / info.energy_full) * info.energy_now).toFixed(2)
-        console.log(data)
     })
 }
 
