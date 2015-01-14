@@ -11,10 +11,23 @@ var batteryInfo = require('battery-info')
 // wifi signal strength ??
 
 var data = {
-    network : '?',
-    diskspace : '?',
-    batteryStatus : '?',
-    batteryPercent : '?'
+    network : '',
+    diskspace : '',
+    batteryStatus : '',
+    batteryPercent : ''
+}
+
+var colors = {
+    cyan      : '#00D7FF',
+    blue      : '#11A4EB',
+    purple    : '#2F73DC',
+    lightblue : '#11A4EB',
+    magenta   : '#ED44AA',
+    yellow    : '#E6DC06',
+    green     : '#00F265',
+    red       : '#F73D30',
+    white     : '#cccccc',
+    bluegrey  : '#525D71'
 }
 
 console.log('{"version":1}')
@@ -22,10 +35,13 @@ console.log('[[],')
 
 var bar = function() {
     var out = [
-        { "full_text" : formatDiskInfo(data),    "color" : "#ffff00" },
-        { "full_text" : formatNetworkInfo(data), "color" : "#00F265" },
-        { "full_text" : formatBatteryInfo(data), "color" : "#ffff00" },
-        { "full_text" : formatTimeInfo(data),    "color" : "#ffff00" },
+        formatDiskInfo(data),
+        formatSeparator(),
+        formatNetworkInfo(data),
+        formatSeparator(),
+        formatBatteryInfo(data),
+        formatSeparator(),
+        formatTimeInfo(data),
     ]
     console.log(JSON.stringify(out)+',')
     diskspace.check('/', function(err, total, free, status) {
@@ -43,31 +59,35 @@ var bar = function() {
     })
 }
 
+function formatSeparator() {
+    return { "full_text" : '|', "color" : colors.magenta, "separator" : false }
+}
+
 function formatDiskInfo(data) {
-    return chalk.white(data.diskspace)
+    return { "full_text" : data.diskspace, "color" : colors.bluegrey, "separator" : false }
 }
 
 function formatBatteryInfo(data) {
-    var battcolor = data.batteryStatus == 'Discharging' ? chalk.cyan : chalk.green
-    if (data.batteryStatus == 'Discharging' && parseFloat(data.batteryPercent) < 10) battcolor = chalk.red
-    return battcolor('🔋  '+data.batteryPercent+'%')
+    var battinfo = ''
+    var battcolor = data.batteryStatus == 'Discharging' ? colors.cyan : colors.green
+    if (data.batteryStatus == 'Discharging' && parseFloat(data.batteryPercent) < 20) battcolor = colors.red
+    if (data.batteryPercent != '') battinfo = '🔋  '+data.batteryPercent+'%'
+    return { "full_text" : battinfo, "color" : battcolor, "separator" : false }
 }
 
 function formatNetworkInfo(data) {
-    if (data.network == '?') return '?'
-    if (data.network instanceof Array && data.network.length == 0) return 'No network'
     var infostr = ''
-    data.network.forEach(function(network, index) {
+    if (data.network instanceof Array) data.network.forEach(function(network, index) {
         if (index > 0) inforstr += ' '
         infostr += (network.type == 'Wireless') ? emoji.get('radio') : emoji.get('telephone')
         infostr += '  '
         infostr += chalk.green(network.ip_address)
     })
-    return infostr
+    return { "full_text" : infostr, "color" : colors.green, "separator" : false }
 }
 
 function formatTimeInfo() {
-    return moment().format('DD MMM HH:mm')
+    return { "full_text" : moment().format('DD MMM HH:mm'), "color" : colors.blue, "separator" : false }
 }
 
 setInterval(bar,5000);bar();
