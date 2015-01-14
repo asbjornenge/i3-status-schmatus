@@ -23,10 +23,7 @@
   "homepage": "https://github.com/asbjornenge/i3-status-schmatus",
   "dependencies": {
     "battery-info": "^1.0.0",
-    "battery-remaining": "^1.0.1",
-    "battery-status": "^1.0.2",
     "chalk": "^0.5.1",
-    "diskspace": "^0.1.7",
-    "node-battery": "^0.2.2"
+    "diskspace": "^0.1.7"
   }
 }
