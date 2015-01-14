@@ -24,6 +24,7 @@
   "dependencies": {
     "battery-info": "^1.0.0",
     "chalk": "^0.5.1",
-    "diskspace": "^0.1.7"
+    "diskspace": "^0.1.7",
+    "network": "^0.1.3"
   }
 }
