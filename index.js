@@ -1,4 +1,5 @@
 var chalk = require('chalk')
+var emoji = require('node-emoji')
 var network = require('network')
 var diskspace = require('diskspace')
 var batteryInfo = require('battery-info')
@@ -49,7 +50,8 @@ function formatNetworkInfo(data) {
     if (data.network instanceof Array && data.network.length == 0) return 'No network'
     var infostr = ''
     data.network.forEach(function(network) {
-        infostr += ' '
+        infostr += (network.type == 'Wireless') ? emoji.get('radio') : emoji.get('telephone')
+        infostr += '  '
         infostr += chalk.green(network.ip_address)
     })
     return infostr
