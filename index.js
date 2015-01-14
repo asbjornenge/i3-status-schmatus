@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 var chalk = require('chalk')
 var emoji = require('node-emoji')
 var moment = require('moment')
@@ -7,7 +8,7 @@ var batteryInfo = require('battery-info')
 
 // missing..
 // load
-// time
+// wifi signal strength ??
 
 var data = {
     network : '?',
@@ -65,4 +66,4 @@ function formatTimeInfo() {
     return moment().format('DD MMM HH:mm')
 }
 
-setInterval(bar,2000);bar();
+setInterval(bar,5000);bar();

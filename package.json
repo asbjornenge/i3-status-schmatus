@@ -2,7 +2,7 @@
   "name": "i3-status-schmatus",
   "version": "1.0.0",
   "description": "Alternative status bar for i3",
-  "main": "index.js",
+  "bin" : "index.js",
   "scripts": {
     "test": "mocha -R nyan -w --check-leaks"
   },
