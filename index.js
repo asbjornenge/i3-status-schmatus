@@ -78,8 +78,9 @@ function formatBatteryInfo(data) {
 function formatNetworkInfo(data) {
     var infostr = ''
     if (data.network instanceof Array) data.network.forEach(function(network, index) {
-        if (index > 0) inforstr += ' '
-        infostr += (network.type == 'Wireless') ? emoji.get('radio') : emoji.get('telephone')
+        if (index > 0) infostr += ' '
+        if (!network.ip_address) return
+        infostr += (network.type == 'Wireless') ? emoji.get('radio') : emoji.get('computer')
         infostr += '  '
         infostr += chalk.green(network.ip_address)
     })
