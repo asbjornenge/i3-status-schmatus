@@ -55,7 +55,15 @@ var bar = function() {
     })
     network.get_interfaces_list(function(err, list) {
         if (err) return
-        data.network = list
+        data.network = list.sort(function compare(a,b) {
+            if (a.type > b.type)
+                return -1;
+            if (a.type < b.type)
+                return 1;
+            return 0;
+        }).filter(function(network) {
+            return network.ip_address != undefined
+        })
     })
 }
 
